@@ -64,6 +64,10 @@
 * Dispose `FLTVideoPlayer` in `onTextureUnregistered` callback on iOS.
 * Add a temporary fix to dispose the `FLTVideoPlayer` with a delay to avoid race condition.
 * Updated the example app to include a new page that pop back after video is done playing.
+## 0.10.3+0.5
+
+* iOS: Fix a bug which file path was not encoded correctly.
+  https://github.com/flutter/flutter/issues/40429
 
 ## 0.10.3
 

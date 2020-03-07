@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:path/path.dart' as p;
 
 import 'package:video_player_platform_interface/video_player_platform_interface.dart';
 export 'package:video_player_platform_interface/video_player_platform_interface.dart'
@@ -190,8 +191,12 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   ///
   /// This will load the file from the file-URI given by:
   /// `'file://${file.path}'`.
-  VideoPlayerController.file(File file, {this.closedCaptionFile})
-      : dataSource = 'file://${file.path}',
+  /// **iOS only**: the file name must include a supported extension by the AVPlayer.
+  /// **iOS only**: the file path must be Uri encoded, this is not done on the native side.
+  VideoPlayerController.file(File file)
+      : assert(Platform.isIOS ? p.extension(file.path).isNotEmpty : true),
+        dataSource =
+            'file://${Platform.isIOS ? Uri.encodeFull(file.path) : file.path}',
         dataSourceType = DataSourceType.file,
         package = null,
         formatHint = null,
